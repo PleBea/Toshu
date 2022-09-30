@@ -12,7 +12,7 @@ client.on('ready', async () => {
             .then(async () => {
                 console.log('Database synced');
             })
-            .catch((error) => {
+            .catch((error: Error) => {
                 console.error(error);
             });
     } catch (error) {

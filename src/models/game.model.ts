@@ -6,14 +6,13 @@ import {
     Model,
     DataType,
     CreatedAt,
-    UpdatedAt,
     AllowNull,
     Unique,
     PrimaryKey,
 } from 'sequelize-typescript';
 
 @Table({ timestamps: true })
-export default class Users extends Model {
+export default class Games extends Model {
     @AllowNull(false)
     @Unique(true)
     @PrimaryKey
@@ -22,27 +21,13 @@ export default class Users extends Model {
 
     @AllowNull(false)
     @Column(DataType.STRING)
-    name!: string;
+    player1!: string;
 
     @AllowNull(false)
-    @Column({
-        type: DataType.INTEGER,
-        defaultValue: 0,
-    })
-    ttc!: number;
-
-    @AllowNull(false)
-    @Column({
-        type: DataType.INTEGER,
-        defaultValue: 0,
-    })
-    ranking!: number;
+    @Column(DataType.STRING)
+    player2!: string;
 
     @CreatedAt
     @Column(DataType.DATE)
     createdAt!: Date;
-
-    @UpdatedAt
-    @Column(DataType.DATE)
-    updatedAt!: Date;
 }

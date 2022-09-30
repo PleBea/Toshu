@@ -1,16 +1,17 @@
 import { Message } from 'discord.js';
+import { commands } from '../client';
+import fs from 'fs';
+import path from 'path';
 
-const client = require('../client');
-const fs = require('fs');
-const path = require('path');
+import type { Command } from '../types/ex';
 
 const Filter = fs
     .readdirSync(path.join(__dirname + '/'))
-    .filter((file: string) => file.endsWith('.js'))
-    .filter((file: string) => file !== 'index.js');
-Filter.forEach((file: any) => {
-    const command = require(`./${file}`);
-    client.commands.set(command.config.name, command);
+    .filter((file: string) => file.endsWith('.ts'))
+    .filter((file: string) => file !== 'index.ts');
+Filter.forEach(async (file: string) => {
+    const command = await import(path.join(__dirname + '/' + file));
+    commands.set(command.config.name, command);
 });
 
 export const executeCommand = (
@@ -19,10 +20,10 @@ export const executeCommand = (
     args: string[]
 ) => {
     if (msg.author.bot) return;
-    if (client.commands.get(command)) {
-        const ex = client.commands.get(command);
+    if (commands.get(command)) {
+        const ex: Command = commands.get(command);
         if (ex) {
-            ex.run(client, msg, args);
+            ex.run(command, msg, args);
         }
     }
 };

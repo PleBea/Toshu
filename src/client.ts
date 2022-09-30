@@ -1,5 +1,6 @@
 import { Client, GatewayIntentBits, Collection } from 'discord.js';
 import { executeCommand } from './commands';
+import { Command } from './types/ex';
 
 const prefix = process.env.PREFIX || '!';
 
@@ -21,4 +22,4 @@ client.on('messageCreate', async (msg) => {
     }
 });
 
-export const commands = new Collection();
+export const commands = new Collection<string, Command>();
